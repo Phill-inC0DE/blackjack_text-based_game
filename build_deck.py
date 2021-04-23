@@ -1,9 +1,3 @@
-# The setup requires:
-# 1. 52 cards
-# 2. one through ten, of each suit, value what's on card
-# 3. ace, of each suit, value = 1 or 11
-# 4. jacks/queens/kings, of each suite, value = 10
-
 # Stage 1 / set up as an array, with four arrays (one for each suit)
 value_cards = [[1, 11], 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10] #13
 suit_to_cards = ['Hearts', 'Clubs', 'Diamonds', 'Spades']
@@ -26,9 +20,6 @@ diamond_suit = create_suit(2)
 spade_suit = create_suit(3)
 all_suits = [heart_suit, club_suit, diamond_suit, spade_suit]
 
-#print(heart_suit)
-#print(all_suits)
-
 def add_value(card_suits):
     total_deck = {}
     total_deck.update({key:value for key, value in zip(card_suits[0], make_suit.value_card[0:])})
@@ -38,5 +29,3 @@ def add_value(card_suits):
     return total_deck
 
 full_deck = add_value(all_suits)
-
-#print(full_deck)
