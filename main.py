@@ -61,6 +61,12 @@ while True:
             except ValueError:
                 print("You need to place the right bet amount.")
                 continue
+        elif confirm_prompt.upper() == "N" and type(confirm_prompt) != int:
+            print("Thanks for playing!")
+            exit()
+        else:
+            print("Wrong button.")
+            continue
     # Deck gets shuffled and cards get passed out. Player gets the first two cards.
     if player_turn > 0:
         new_dict.clear()
@@ -71,12 +77,12 @@ while True:
         player_cards[key_deck_list[four_random[1]]] = value_deck_list[four_random[1]]
         player_cards_lst = list(player_cards.values())
         player_cards_value[ask_name] = sum(player_cards_lst)
-        player_turn += sum(player_cards_lst)
         
         for key, value in full_deck.items():
             if key not in list(player_cards.keys()):
                 new_dict[key] = value
-
+        
+        time.sleep(3)
         print(
             "Your cards:" + str(player_cards) + "\n" \
             "Total value for Player: " + str(player_cards_value)
@@ -88,17 +94,19 @@ while True:
             bet = 0
             new_prompt = input("Would you like to continue? Y/N\n")
             if new_prompt == "Y" and type(new_prompt) != int:
-                player_turn += 1
+                player_turn += 6
                 break
             else:
-                exit() 
-        
-        if player_turn > 0:
+                exit()
+        else:
+           pass 
+        if player_turn > 5:
             player_turn = 0
             continue
-    
+        else:
+            pass
+
         # Dealer gets his cards and shows the first one and on the second turn shows the second card.
-    
         time.sleep(3)
         print("\nNow wait for the dealer.")
         time.sleep(3)
@@ -123,12 +131,10 @@ while True:
 
         while True:
             turn_prompt = input("\nWhat would you like to do? Hit or Stay. H/S:\n")
-            if turn_prompt.upper() != "S" + "H" and type(turn_prompt) != int:
-                print("Wrong Key Pressed.")
-                break
-            continue
             if turn_prompt.upper() == "S" and type(turn_prompt) != int:
                 if sum(player_cards.values()) > sum(dealer_cards.values()):
+                    print("Dealers cards: " + str(dealer_cards))
+                    time.sleep(2)
                     print("You win! Congrats")
                     amount_in_pot += bet * 2
                     bet = 0
@@ -136,12 +142,15 @@ while True:
             elif turn_prompt.upper() == "H" and type(turn_prompt) != int:
                 player_turn += 1
                 break
+            else:
+                print("Wrong Key Pressed.")
+                continue
         if player_turn > 0:
             continue
         else:
-            break
+            pass
     player_cards.clear()
     dealer_cards.clear()
     new_dict.clear()
     new_dict2.clear()
-    continue
+    False
