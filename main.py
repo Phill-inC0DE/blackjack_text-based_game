@@ -14,6 +14,11 @@ amount_in_pot = 1000
 money_pot = "£{amount}".format(amount=amount_in_pot)
 bet = 0
 
+new_dict = {}
+new_dict2 = {}
+key_deck_list = [key for key in full_deck.keys()]
+value_deck_list = [value for value in full_deck.values()]
+four_random = random.sample(range(0, len(full_deck)), 4)
 
 while True:
     player_turn = 0
@@ -56,20 +61,18 @@ while True:
             except ValueError:
                 print("You need to place the right bet amount.")
                 continue
+    # Deck gets shuffled and cards get passed out. Player gets the first two cards.
+    if player_turn > 0:
+            new_dict.clear()
+            break
     
-    new_dict = {}
     while True:
-        new_dict.clear()
-        key_deck_list = [key for key in full_deck.keys()]
-        value_deck_list = [value for value in full_deck.values()]
-
-        four_random = random.sample(range(0, len(full_deck)), 4)
         player_cards[key_deck_list[four_random[0]]] = value_deck_list[four_random[0]]
         player_cards[key_deck_list[four_random[1]]] = value_deck_list[four_random[1]]
         player_cards_lst = list(player_cards.values())
         player_cards_value[ask_name] = sum(player_cards_lst)
         player_turn += sum(player_cards_lst)
-    
+        
         for key, value in full_deck.items():
             if key not in list(player_cards.keys()):
                 new_dict[key] = value
@@ -78,22 +81,67 @@ while True:
             "Your cards:" + str(player_cards) + "\n" \
             "Total value for Player: " + str(player_cards_value)
             )
-
+            
+        if sum(player_cards.values()) == 21:
+            print(ask_name + " got 21! you Win!!!")
+            amount_in_pot += bet * 2
+            bet = 0
+            new_prompt = input("Would you like to continue? Y/N\n")
+            if new_prompt == "Y" and type(new_prompt) != int:
+                player_turn += 1
+                break
+            else:
+                exit() 
+        
+        if player_turn > 0:
+            player_turn = 0
+            continue
+    
+        # Dealer gets his cards and shows the first one and on the second turn shows the second card.
+    
         time.sleep(3)
         print("\nNow wait for the dealer.")
         time.sleep(3)
-        dealer_cards[key_deck_list[four_random[2]]] = value_deck_list[four_random[2]]
-        dealer_cards[key_deck_list[four_random[3]]] = value_deck_list[four_random[3]]
-        dealer_cards_lst = list(dealer_cards.values())
-        dealer_cards_value["Dealer"] = sum(dealer_cards_lst)
-        dealer_turn += sum(dealer_cards_lst)
-        print("Dealer shows: " + str(dealer_cards) + " Total value: {}".format(dealer_cards_value.get("Dealer")))
-        
-        new_dict2 = {}
-        for key, value in new_dict.items():
-            if key not in list(dealer_cards.keys()):
-                new_dict2[key] = value
-        
-        turn_prompt = input("\nWhat would you like to do? Hit or Stay. H/S:\n")
-        if turn_prompt.upper() == "H" and type(turn_prompt) != int:
-            pass
+        if dealer_turn < 1 and player_turn < 1:
+            dealer_cards.clear()
+            dealer_cards[key_deck_list[four_random[2]]] = value_deck_list[four_random[2]]
+            dealer_cards[key_deck_list[four_random[3]]] = value_deck_list[four_random[3]]
+            dealer_cards_lst = list(dealer_cards.values())
+            dealer_cards_value["Dealer"] = sum(dealer_cards_lst)
+            dealer_first, dealer_second = list(dealer_cards.items())
+            if dealer_turn < 1:
+                print("Dealer shows 1st card " + str(dealer_first[0]) + " Total value: {}".format(dealer_cards[dealer_first[0]]))
+                dealer_turn += 1
+            else: 
+                print("Dealer shows 2nd card " + str(dealer_second[0]) + "Total value: {}".format(dealer_cards[dealer_second[0]]))
+                time.sleep(3)
+                print("All cards: " + str(dealer_cards) + " Total Value: " + str(sum(dealer_cards.values())))
+            
+            for key, value in new_dict.items():
+                if key not in list(dealer_cards.keys()):
+                    new_dict2[key] = value
+
+        while True:
+            turn_prompt = input("\nWhat would you like to do? Hit or Stay. H/S:\n")
+            if turn_prompt.upper() != "S" + "H" and type(turn_prompt) != int:
+                print("Wrong Key Pressed.")
+                break
+            continue
+            if turn_prompt.upper() == "S" and type(turn_prompt) != int:
+                if sum(player_cards.values()) > sum(dealer_cards.values()):
+                    print("You win! Congrats")
+                    amount_in_pot += bet * 2
+                    bet = 0
+                    break
+            elif turn_prompt.upper() == "H" and type(turn_prompt) != int:
+                player_turn += 1
+                break
+        if player_turn > 0:
+            continue
+        else:
+            break
+    player_cards.clear()
+    dealer_cards.clear()
+    new_dict.clear()
+    new_dict2.clear()
+    continue

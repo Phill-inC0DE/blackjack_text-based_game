@@ -1,5 +1,5 @@
 # Stage 1 / set up as an array, with four arrays (one for each suit)
-value_cards = [[1, 11], 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10] #13
+value_cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10] #13
 suit_to_cards = ['Hearts', 'Clubs', 'Diamonds', 'Spades']
 type_of_cards = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Queen', 'King', 'Jack']
 
