@@ -63,8 +63,8 @@ while True:
                 continue
     # Deck gets shuffled and cards get passed out. Player gets the first two cards.
     if player_turn > 0:
-            new_dict.clear()
-            break
+        new_dict.clear()
+        break
     
     while True:
         player_cards[key_deck_list[four_random[0]]] = value_deck_list[four_random[0]]
