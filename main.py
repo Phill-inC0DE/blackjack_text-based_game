@@ -5,6 +5,8 @@ import time
 
 # card set no. 4, 13, 52
 
+#BELOW WE HAVE THE SETUP TO GAME, HOW IT STARTS:
+
 dealer_cards_value = {"Dealer": 0}
 player_cards_value = {}
 ask_name = input("What is your name?\n")
@@ -22,6 +24,12 @@ new_dict2 = {}
 key_deck_list = [key for key in full_deck.keys()]
 value_deck_list = [value for value in full_deck.values()]
 hit = 0
+
+# THIS IS WHERE THE NEW PLAYERS START WITH THE INITAL $1000 GIVEN, AN BASICALLY ASKS FOR THE PLAYERS NAME AND TAKES
+# PLUS DEDUCTS THE AMOUNT THEY BET. ALSO CHECKING TO MAKE SURE THEY PRESS THE RIGHT KEYS.
+
+# IT CODE SHOULD ALSO ALLOW THE PLAYER TO RESTART AT THIS POINT IF THEY LOSE WITH THERE NEW AMOUNT ADDED TO THE POT OR
+# DEDUCTED, HOWEVER, THERE'S STILL A BUNCH OF ISSUES THAT I DON'T FULLY UNSTAND YET.continue
 
 while True:
     player_turn = 0
@@ -70,16 +78,19 @@ while True:
             else:
                 print("Wrong button.")
                 continue
-        # Deck gets shuffled and cards get passed out. Player gets the first two cards.
         if player_turn > 0:
             new_dict.clear()
     else:
         player_turn += 1
         pass
 
+# HERE THE DECK GETS SHUFFLE AND TWO CARDS FROM RANDOM NUMBERS ARE PLACED FROM THE DECK INTO THE PLAYERS HAND.
+# THEN REMOVING THE CARDS IN THE PLAYERS HAND FROM THE DECK COMPLETELY BY PLACING IT INTO A NEW DICTIONARY.
+    
     while True:
         four_random = random.sample(range(0, len(full_deck)), 4)
         if player_turn > 0:
+            four_random = random.sample(range(0, len(new_dict)), 4)
             player_cards[key_deck_list[four_random[0]]] = value_deck_list[four_random[0]]
             player_cards_lst = list(player_cards.values())
             player_cards_value[ask_name] = sum(player_cards_lst)
@@ -98,7 +109,12 @@ while True:
             "Your cards:" + str(player_cards) + "\n" \
             "Total value for Player: " + str(player_cards_value)
             )
-            
+
+
+# HERE WE CHECK TO SEE IF THE PLAYER CARDS HAVE HIT 21 OR BURST ON A SECOND PLAYER THROUGH. IT ALSO GIVES THE PLAYER A CHANCE TO RESTART THE GAME
+# IF THEY WISH TO CONTINUE, OR EXIT THE GAME IF THEY DON'T.        
+        
+        
         if sum(player_cards.values()) == 21:
             print(ask_name + " got 21! you Win!!!")
             amount_in_pot += bet * 2
@@ -123,7 +139,13 @@ while True:
         continue
     else:
         pass
-        # Dealer gets his cards and shows the first one and on the second turn shows the second card.
+ 
+
+# HERE THE CARDS ARE DELT TO THE DEALER, IF ITS THE FIRST PLAY THROUGH THEY HE ONLY SHOWS YOU ONE OF HIS CARDS
+# ON A SECOND PLAYER THROUGH HE'LL REVEL ALL OF HIS CARDS. AND THE GAME WOULD BE DECIDED, OTHER WISE YOU CAN
+# CONTINUE TO HIT TILL YOU'VE BEAT THE DEALERS VALUE.
+
+
         time.sleep(3)
         print("\nNow wait for the dealer.")
         time.sleep(3)
@@ -147,6 +169,11 @@ while True:
             if key not in list(dealer_cards.keys()):
                 new_dict2[key] = value
 
+
+# HERE THE PLAYER MUST DECIDE WHETHER TO HIT OR STAY, THE AIM IS TO ALLOW THE PLAYER TO RESTART  IF THEY LOSE OR GAIN DOUBLE EVEN TRIPLE THEIR ORIGINAL
+# BET IF THEY WIN. HOWEVER, I'M HAVING DIFFICULTY IN ALLOWING THE PLAYER TO RESTART WITH THE NEW AMOUNT IN THEIR POT.
+        
+        
         while True:
             turn_prompt = input("\nWhat would you like to do? Hit or Stay. H/S:\n")
             if turn_prompt.upper() == "S" and type(turn_prompt) != int:
