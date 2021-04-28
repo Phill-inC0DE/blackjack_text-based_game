@@ -236,13 +236,15 @@ def player_busts(player, dealer, chips, player_win, dealer_win):
 # THE NEXT FOUR FUNCTIONS DO SIMILAR TO THE ABOVE FUNCTION...
 def player_wins(player, dealer, chips, player_win, dealer_win):
     if player_chips.debt < 0:
-        print("{0} wins!".format(name))
+        print("\n{0} wins!".format(name))
+        time.sleep(3)
         player_win = True
         dealer_win = False
         chips.pay_debt()
         return player_win, dealer_win
     else:
-        print("{0} wins!".format(name))
+        print("\n{0} wins!".format(name))
+        time.sleep(3)
         player_win = True
         dealer_win = False
         chips.win_bet()
@@ -251,28 +253,30 @@ def player_wins(player, dealer, chips, player_win, dealer_win):
 def dealer_busts(player, dealer, chips, player_win, dealer_win):
     if player_chips.debt < 0:
         print("Dealer busts!")
-        print("{0} wins!".format(name))
+        print("\n{0} wins!".format(name))
+        time.sleep(3)
         player_win = True
         dealer_win = False
         chips.pay_debt()
         return player_win, dealer_win
     else:
         print("Dealer busts!")
-        print("{0} wins!".format(name))
+        print("\n{0} wins!".format(name))
+        time.sleep(3)
         player_win = True
         dealer_win = False
         chips.win_bet()
         return player_win, dealer_win
 
 def dealer_wins(player, dealer, chips, player_win, dealer_win):
-    print("Dealer wins!")
+    print("\nDealer wins!")
     player_win = False
     dealer_win = True
     chips.lose_bet()
     return player_win, dealer_win
 
 def push(player, dealer, player_win, dealer_win):
-    print("Dealer and {0} tie! Its a push.".format(name))
+    print("\nDealer and {0} tie! Its a push.".format(name))
     player_win = False
     dealer_win = False
     return player_win, dealer_win
@@ -345,7 +349,7 @@ while playing:
         if debt_count > 0:
             print("\nHalf of your winnings goes to your debt.")
             print("\n{0}'s winnings stand at £".format(name) + str(round(player_chips.total)))
-            print("Debt owed: £" + str(round((player_chips.debt - (player_chips.debt * 2)))))
+            print("Remaining debt owed: £" + str(round((player_chips.debt - (player_chips.debt * 2)))))
             if player_chips.debt >= 0:
                 player_chips.total += player_chips.debt
                 player_chips.debt = 0
