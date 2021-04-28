@@ -4,7 +4,7 @@
 Progress: COMPLETED
 
 As you can see their is a first attempt file and a singular python file called blackjack.py.
-blackjack.py is my perfect game after trial and error, I included my original code as to show you where I went wrong and corrected my mistakes. If I had never worked on that first attempt I don't this final result would of been anywhere near as good, it helped me practice and hone my skill, so I felt it only right to include it.
+The blackjack.py is my perfect game after trial and error, I included my original code as to show you where I went wrong and corrected my mistakes. If I had never worked on that first attempt I don't this final result would of been anywhere near as good, it helped me practice and hone my skill, so I felt it only right to include it.
 
 Apologies for having the script in one file, I tried splitting them up after completeing the project into classes, functions etc... but it turned out to be more complicated than I thought and I'd spent enough time on this project as it was so I thought I practice that next time. If you have any tips or additional things you would of like to see in the game please contact me, I'll happily make the adjustments.
 
@@ -19,7 +19,7 @@ I also made a class for the chips that held the value of how many chips they sta
 ## Third Task | The start up Greeting and placing bets.
 I needed a function that would check the time of the day and reply back with either morning, afternoon or evening. While asking for the player name and using it throughtout so the experience is more personalised. The player would then be offered chips up front and how many of the chips they would like to bet. Additionally I added the extra feature, where if the player where to run out of chips they would then be prompet a loan request.
 
-## Fourth Task | Asking the loan amount and keeping track of the debt, whilst paying it off.
+## Fourth Task | Asking the loan amount and keeping track of the debt, whilst paying off the debt.
 I thought of this feature towards the end of writing my code as an extra challenge for myself but also it would be a way for the player to carry on with their game. (sort of like an extra life) It turned out be a lot more challenging than I first thought, but I had a lot of fun with and got the result I was after.
 
 ## Fifth Task | Functions for working out who won and who lost or if it was a tie.
