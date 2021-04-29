@@ -15,9 +15,9 @@ values = {
 def what_time():
     date_time = str(datetime.datetime.now().time())
     date_time = int(date_time[:2])
-    if date_time < 12 and date_time > 0:
+    if date_time < 12 and date_time > 00:
         return "Good morning! "
-    elif date_time > 12 and date_time < 6:
+    elif date_time > 12 and date_time < 18:
         return "Good afternoon! "
     else:
         return "Good evening! "
@@ -180,7 +180,7 @@ def hit(deck, hand):
 def hit_or_stand(deck, hand):
     global playing
     while True:
-        x = input('Would you like to hit or stand? Press H/S ')
+        x = input('Would you like to hit or stand? Press H/S\n')
 
         if x[0].lower() == 'h':
             hit(deck, hand)
@@ -299,7 +299,7 @@ while playing:
         if player_chips.debt_count > 0:
             take_bet(player_chips)
             debt_count = player_chips.debt_count
-            print("\nDebt still owe: £" + str(round((player_chips.debt - (player_chips.debt * 2)))))
+            print("\nDebt still owed: £" + str(round((player_chips.debt - (player_chips.debt * 2)))))
 
         else:    
             take_bet(player_chips)
