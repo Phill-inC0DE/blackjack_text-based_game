@@ -276,7 +276,6 @@ def dealer_wins(player, dealer, chips, player_win, dealer_win):
     return player_win, dealer_win
 
 def push(player, dealer, player_win, dealer_win):
-    print("\nDealer and {0} tie! Its a push.".format(name))
     player_win = False
     dealer_win = False
     return player_win, dealer_win
