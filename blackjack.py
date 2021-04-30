@@ -22,7 +22,7 @@ def what_time():
     else:
         return "Good evening! "
 
-# PLACEHOLDERS FOR PROMPTING WHEN TO RESTART THE GAME OR CARRY ON PLAYING.
+# PLACEHOLDERS FOR PROMPTING WHEN TO RESTART THE GAME, CARRY ON PLAYING, THE START UP GREETING AND WHO WINS.
 greeting = what_time()
 playing = True
 restart = 0
