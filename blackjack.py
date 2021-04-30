@@ -30,7 +30,7 @@ player_win = False
 dealer_win = False
 
 # ASKS USER FOR NAME & ADJUST NAME SO IT BEGINS WITH A CAPITAL.
-name = input(greeting + "What's your name?\n")
+name = input("\n" + greeting + "What's your name?\n")
 print("\nHi {name}! Welcome to the Casino!".format(name=name[0].upper() + name[1:]))
 name = name[0].upper() + name[1:]
 time.sleep(3)
