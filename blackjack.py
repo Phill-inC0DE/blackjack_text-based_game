@@ -129,6 +129,10 @@ def take_bet(chips):
             if chips.bet < chips.total and restart < 1:
                 print("Each chip is worth £1 and every win rewards you with 1.5x the amount you bet.")
                 time.sleep(3)
+                print("Lets begin.")
+                time.sleep(2)
+                print("Dealing cards...")
+                time.sleep(2)
         except ValueError:
             print('Sorry, a bet must be a digit.')
             continue
@@ -180,7 +184,7 @@ def hit(deck, hand):
 def hit_or_stand(deck, hand):
     global playing
     while True:
-        x = input('Would you like to hit or stand? Press H/S\n')
+        x = input('\nWould you like to hit or stand? Press H/S\n')
 
         if x[0].lower() == 'h':
             hit(deck, hand)
@@ -196,7 +200,7 @@ def hit_or_stand(deck, hand):
 def end_of_game():
     number_str = "1234567890"
     while True:
-        new_game = input("Would you like to play another hand? Press Y/N\n")
+        new_game = input("\nWould you like to play another hand? Press Y/N\n")
         try: 
             if new_game[0].lower() == "y":
                 return 1, True    
@@ -211,19 +215,24 @@ def end_of_game():
 
 # HIDES ONE OF THE DEALERS CARDS IN THE BEGINNING OF THE GAME, AND ALL OF THE PLAYERS CARDS.
 def show_some(player, dealer):
+    print("______________________")
     print("\nDealer's Hand:")
     print(" <card hidden>")
     print('', dealer.cards[1])
     time.sleep(3)
+    print("______________________")
     print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
+    print("Your value:", player.value)
 
 # SHOWS ALL OF THE DEALERS AND PLAYERS CARDS ON THE NEXT RUN THROUGH.
 def show_all(player, dealer):
+    print("______________________")
     print("\nDealer's Hand:", *dealer.cards, sep='\n ')
-    print("Dealer's Hand =", dealer.value)
+    print("Dealer's value:", dealer.value)
     time.sleep(3)
+    print("______________________")
     print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
-    print("{0}'s Hand =".format(name), player.value)
+    print("Your value:", player.value)
 
 # WORKS OUT IF THE PLAYERS HAS BUST AND ADJUSTS WHO WON & LOST.
 def player_busts(player, dealer, chips, player_win, dealer_win):
@@ -319,12 +328,35 @@ while playing:
                 continue
             else:
                 break
-        
-        if player_hand.value <= 21:
-            while dealer_hand.value < 16:
-                hit(deck, dealer_hand)
-        time.sleep(3)
-        show_all(player_hand, dealer_hand)
+
+        if playing == True:    
+            if player_hand.value < 20 and dealer_hand.value < 17:
+                while dealer_hand.value < 17 and player_hand.value < 20:
+                    hit(deck, dealer_hand)
+                    hit_or_stand(deck, player_hand)
+                    show_all(player_hand, dealer_hand)
+                    time.sleep(3)
+            elif player_hand.value >= 20 and dealer_hand.value < 17:
+                while dealer_hand.value < 17:
+                    hit(deck, dealer_hand)
+                    show_all(player_hand, dealer_hand)
+                    time.sleep(3)
+            elif player_hand.value < 20 and dealer_hand.value >= 17:
+                while player_hand.value < 20:
+                    hit_or_stand(deck, player_hand)
+                    show_all(player_hand, dealer_hand)
+                    time.sleep(3)
+            else:
+                pass
+        else:
+            if dealer_hand.value < 17:
+                while dealer_hand.value < 17:
+                    hit(deck, dealer_hand)
+                    show_all(player_hand, dealer_hand)
+                    time.sleep(3)
+
+        #time.sleep(3)
+        #show_all(player_hand, dealer_hand)
 
         if dealer_hand.value > 21:
             player_win, dealer_win = dealer_busts(player_hand, dealer_hand, player_chips, player_win, dealer_win)
