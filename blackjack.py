@@ -30,10 +30,16 @@ player_win = False
 dealer_win = False
 
 # ASKS USER FOR NAME & ADJUST NAME SO IT BEGINS WITH A CAPITAL.
-name = input("\n" + greeting + "What's your name?\n")
-print("\nHi {name}! Welcome to the Casino!".format(name=name[0].upper() + name[1:]))
-name = name[0].upper() + name[1:]
-time.sleep(3)
+while True:
+    try:
+        name = input("\n" + greeting + "What's your name?\n")
+        print("\nHi {name}! Welcome to the Casino!".format(name=name[0].upper() + name[1:]))
+        name = name[0].upper() + name[1:]
+        time.sleep(3)
+        break
+    except IndexError:
+        print('Enter name first.')
+        continue
 
 # CLASS: BUILDS EACH CARD
 class Card:
@@ -343,10 +349,10 @@ while playing:
                         print("\nYou LOSE:\n£{0}".format(round(player_chips.bet)))
                         time.sleep(3)
                         restart, playing = end_of_game()
-                    if restart > 0 and playing == True:
-                        pass
-                    else:
-                        exit()
+                        if restart > 0 and playing == True:
+                            pass
+                        else:
+                            exit()
             elif player_hand.value >= 20 and dealer_hand.value < 17:
                 while dealer_hand.value < 17:
                     hit(deck, dealer_hand)
@@ -362,18 +368,20 @@ while playing:
                         print("\nYou LOSE:\n£{0}".format(round(player_chips.bet)))
                         time.sleep(3)
                         restart, playing = end_of_game()
-                    if restart > 0 and playing == True:
-                        pass
-                    else:
-                        exit()
+                        if restart > 0 and playing == True:
+                            break
+                        else:
+                            exit()
             else:
                 pass
+        elif dealer_hand.value < 17:
+            while dealer_hand.value < 17:
+                hit(deck, dealer_hand)
+                show_all(player_hand, dealer_hand)    
+                time.sleep(3)    
         else:
-            if dealer_hand.value < 17:
-                while dealer_hand.value < 17:
-                    hit(deck, dealer_hand)
-                    show_all(player_hand, dealer_hand)
-                    time.sleep(3)
+            pass           
+            
 
         if restart > 0 and playing == True:
             continue
