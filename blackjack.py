@@ -79,12 +79,15 @@ class Hand:
 
     def __init__(self):
         self.cards = []
+        self.first = []
         self.value = 0
         self.aces  = 0
+        
 
     def add_card(self, card):
         self.cards.append(card)
         self.value += values[card.rank]
+        self.first.append(values[card.rank])
         if card.rank == 'Ace':
             self.aces += 1
     
@@ -133,8 +136,8 @@ def take_bet(chips):
         try:
             chips.bet = int(input('\nHow many chips would you like to bet {1}? you have {0} chips avaliable.\n'.format(round(chips.total), name)))
             if chips.bet < chips.total and restart < 1:
-                print("Each chip is worth £1 and every win rewards you with 1.5x the amount you bet.")
-                time.sleep(3)
+                print("\nEach chip is worth £1 and every win rewards you with 1.5x the amount you bet.")
+                time.sleep(2)
                 print("Lets begin.")
                 time.sleep(2)
                 print("Dealing cards...")
@@ -144,7 +147,7 @@ def take_bet(chips):
             continue
         if chips.total < 1:
             print("You lost all your chips!")
-            time.sleep(3)
+            time.sleep(2)
             if chips.loan > 0:
                 loan_choice = input("Would you like to take out a small loan? Y/N\n")
                 if loan_choice.lower() == 'y':
@@ -152,9 +155,9 @@ def take_bet(chips):
                         choice = int(input("\nHow many chips do you want? you have up to {0} avaliable. ".format(str(chips.loan))))
                         if choice <= chips.loan and choice > 0:
                             print("\nIf you lose all the loan money avaliable, you're done for the day.")
-                            time.sleep(3)
+                            time.sleep(2)
                             print("You borrowed {0} chips.".format(choice))
-                            time.sleep(3)
+                            time.sleep(2)
                             chips.total += choice
                             chips.debt -= choice
                             chips.loan += chips.debt
@@ -195,52 +198,76 @@ def hit_or_stand(deck, hand):
             if x[0].lower() == 'h':
                 hit(deck, hand)
             elif x[0].lower() == 's':
-                print('{0} stands. Dealer is playing.'.format(name))
+                print('\n{0} stands. Dealer is playing.'.format(name))
                 playing = False
             else:
-                print('Sorry, please enter a valid response.')
+                print('\nSorry, please enter a valid response.')
                 continue
             break
         except IndexError:
-            print('The wrong key was pressed.')
+            print('\nThe wrong key was pressed.')
 
 # ASKS IF YOU WANT TO RESTART OR END THE GAME.
 def end_of_game():
-    number_str = "1234567890"
     while True:
         new_game = input("\nWould you like to play another hand? Press Y/N\n")
         try: 
             if new_game[0].lower() == "y":
                 return 1, True    
-            elif str(new_game[0]) in number_str or type(new_game) == int:
-                print('Sorry, please enter a valid response.')
-                continue
-            else:
+            elif new_game[0].lower() == "n":
                 print("Thanks for playing.")
                 exit()
+            else:
+                print('Sorry, please enter a valid response.')
+                continue
         except IndexError:
             print('The wrong key was pressed.')
 
 # HIDES ONE OF THE DEALERS CARDS IN THE BEGINNING OF THE GAME, AND ALL OF THE PLAYERS CARDS.
-def show_some(player, dealer):
-    print("______________________")
-    print("\nDealer's Hand:")
-    print(" <card hidden>")
-    print('', dealer.cards[1])
-    time.sleep(3)
-    print("______________________")
-    print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
-    print("Your value:", player.value)
-
-# SHOWS ALL OF THE DEALERS AND PLAYERS CARDS ON THE NEXT RUN THROUGH.
+# AND SHOWS ALL OF THE DEALERS AND PLAYERS CARDS ON THE NEXT RUN THROUGH.
 def show_all(player, dealer):
-    print("______________________")
-    print("\nDealer's Hand:", *dealer.cards, sep='\n ')
-    print("Dealer's value:", dealer.value)
-    time.sleep(3)
-    print("______________________")
-    print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
-    print("Your value:", player.value)
+    global playing
+    if playing == True:
+        if player.value == 20 and dealer.value > 17:
+            print("______________________")
+            print("\nDealer's Hand:", *dealer.cards, sep='\n ')
+            print("Dealer's value:", dealer.value)
+            time.sleep(2)
+            print("______________________")
+            print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
+            print("Your value:", player.value)
+        else:
+            print("______________________")
+            print("\nDealer's Hand:")
+            print(" <card hidden>")
+            print('', dealer.cards[1])
+            print("Dealer's value:", dealer.first[1])
+            time.sleep(2)
+            print("______________________")
+            print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
+            print("Your value:", player.value)
+    else:
+        if dealer.value < 17:
+            print("______________________")
+            print("\nDealer's Hand:", *dealer.cards, sep='\n ')
+            print("Dealer's value:", dealer.value)
+            time.sleep(2)
+        elif player.value >= 20 and dealer.value == player.value:
+            print("______________________")
+            print("\nDealer's Hand:", *dealer.cards, sep='\n ')
+            print("Dealer's value:", dealer.value)
+            time.sleep(2)
+            print("______________________")
+            print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
+            print("Your value:", player.value)
+        else:
+            print("______________________")
+            print("\nDealer's Hand:", *dealer.cards, sep='\n ')
+            print("Dealer's value:", dealer.value)
+            time.sleep(2)
+            print("______________________")
+            print("\n{0}'s Hand:".format(name), *player.cards, sep='\n ')
+            print("Your value:", player.value)
 
 # WORKS OUT IF THE PLAYERS HAS BUST AND ADJUSTS WHO WON & LOST.
 def player_busts(player, dealer, chips, player_win, dealer_win):
@@ -254,14 +281,14 @@ def player_busts(player, dealer, chips, player_win, dealer_win):
 def player_wins(player, dealer, chips, player_win, dealer_win):
     if player_chips.debt < 0:
         print("\n{0} wins!".format(name))
-        time.sleep(3)
+        time.sleep(2)
         player_win = True
         dealer_win = False
         chips.pay_debt()
         return player_win, dealer_win
     else:
         print("\n{0} wins!".format(name))
-        time.sleep(3)
+        time.sleep(2)
         player_win = True
         dealer_win = False
         chips.win_bet()
@@ -271,7 +298,7 @@ def dealer_busts(player, dealer, chips, player_win, dealer_win):
     if player_chips.debt < 0:
         print("\nDealer busts!")
         print("\n{0} wins!".format(name))
-        time.sleep(3)
+        time.sleep(2)
         player_win = True
         dealer_win = False
         chips.pay_debt()
@@ -279,7 +306,7 @@ def dealer_busts(player, dealer, chips, player_win, dealer_win):
     else:
         print("\nDealer busts!")
         print("\n{0} wins!".format(name))
-        time.sleep(3)
+        time.sleep(2)
         player_win = True
         dealer_win = False
         chips.win_bet()
@@ -299,7 +326,7 @@ def push(player, dealer, player_win, dealer_win):
 
 player_chips = Chips()
 
-# THIS WHILE LOOP ALLOWS A RUN THROUGH OF THE GAME AND RESTART IT WITHOUT HAVING TO RERUN THE SCRIPT.
+# THIS WHILE LOOP ALLOWS A RUN THROUGH OF THE GAME AND A RESTART WITHOUT HAVING TO RERUN THE SCRIPT.
 while playing:
         
         if restart > 0:
@@ -322,15 +349,20 @@ while playing:
         
         debt_count = player_chips.debt_count
         restart = 0
-        show_some(player_hand, dealer_hand)
-        time.sleep(3)
-        hit_or_stand(deck, player_hand)
         show_all(player_hand, dealer_hand)
+        time.sleep(2)
+        hit_or_stand(deck, player_hand)
+        if player_hand.value == 21:
+            pass
+        elif player_hand.value == 20 and player_hand.value == 21:
+            pass
+        else:
+            show_all(player_hand, dealer_hand)
 
         if player_hand.value > 21:
             player_win, dealer_win = player_busts(player_hand, dealer_hand, player_chips, player_win, dealer_win)
             print("\nYou LOSE:\n£{0}".format(round(player_chips.bet)))
-            time.sleep(3)
+            time.sleep(2)
             restart, playing = end_of_game()
             if restart > 0 and playing == True:
                 continue
@@ -338,58 +370,62 @@ while playing:
                 break
 
         if playing == True:    
-            if player_hand.value < 20 and dealer_hand.value < 17:
-                while dealer_hand.value < 17 and player_hand.value < 20:
-                    hit(deck, dealer_hand)
+            while player_hand.value < 20 or dealer_hand.value < 17:
+                if player_hand.value < 20 and playing == True:
                     hit_or_stand(deck, player_hand)
+                    if playing == False and dealer_hand.value < 17:
+                        show_all(player_hand, dealer_hand)
+                        continue
                     show_all(player_hand, dealer_hand)
-                    time.sleep(3)
+                    time.sleep(2)
                     if player_hand.value > 21:
                         player_win, dealer_win = player_busts(player_hand, dealer_hand, player_chips, player_win, dealer_win)
                         print("\nYou LOSE:\n£{0}".format(round(player_chips.bet)))
-                        time.sleep(3)
-                        restart, playing = end_of_game()
-                        if restart > 0 and playing == True:
-                            pass
-                        else:
-                            exit()
-            elif player_hand.value >= 20 and dealer_hand.value < 17:
-                while dealer_hand.value < 17:
-                    hit(deck, dealer_hand)
-                    show_all(player_hand, dealer_hand)
-                    time.sleep(3)
-            elif player_hand.value < 20 and dealer_hand.value >= 17:
-                while player_hand.value < 20:
-                    hit_or_stand(deck, player_hand)
-                    show_all(player_hand, dealer_hand)
-                    time.sleep(3)
-                    if player_hand.value > 21:
-                        player_win, dealer_win = player_busts(player_hand, dealer_hand, player_chips, player_win, dealer_win)
-                        print("\nYou LOSE:\n£{0}".format(round(player_chips.bet)))
-                        time.sleep(3)
+                        time.sleep(2)
                         restart, playing = end_of_game()
                         if restart > 0 and playing == True:
                             break
                         else:
                             exit()
-            else:
-                pass
+                elif dealer_hand.value < 17 and player_hand.value == 20:
+                    while dealer_hand.value < 17:
+                        hit(deck, dealer_hand)
+                        show_all(player_hand, dealer_hand)    
+                        time.sleep(2)
+                elif dealer_hand.value < 17 and playing == False:
+                    if dealer_hand.value < 17 and dealer_hand.value > player_hand.value:
+                        break
+                    elif dealer_hand.value < 17 and dealer_hand.value < player_hand.value:
+                        while dealer_hand.value < 17:
+                            hit(deck, dealer_hand)
+                            show_all(player_hand, dealer_hand)    
+                            time.sleep(2)
+                        break
+                elif dealer_hand.value > 17 and playing == False:
+                    break
+                else:
+                    show_all(player_hand, dealer_hand)    
+                    time.sleep(2)
+                    break
         elif dealer_hand.value < 17:
             while dealer_hand.value < 17:
                 hit(deck, dealer_hand)
                 show_all(player_hand, dealer_hand)    
-                time.sleep(3)    
+                time.sleep(2)    
         else:
-            pass           
-            
+            pass     
+    
+        if player_hand.value == 20 and dealer_hand.value == 21:
+            show_all(player_hand, dealer_hand)    
+            time.sleep(2)
+        else:
+            pass
 
         if restart > 0 and playing == True:
             continue
         else:
             pass
 
-        #time.sleep(3)
-        #show_all(player_hand, dealer_hand)
 
         if dealer_hand.value > 21:
             player_win, dealer_win = dealer_busts(player_hand, dealer_hand, player_chips, player_win, dealer_win)
@@ -402,13 +438,13 @@ while playing:
         
         if player_win == True and dealer_win == False:
             print("\nYou WIN:\n£{0}".format(round(player_chips.bet * 1.5)))
-            time.sleep(3)
+            time.sleep(2)
         elif dealer_win == True and player_win == False:
             print("\nYou LOSE:\n£{0}".format(round(player_chips.bet)))
-            time.sleep(3)
+            time.sleep(2)
         else:
             print("\nIt's a TIE")
-            time.sleep(3)
+            time.sleep(2)
 
         if debt_count > 0:
             print("\nHalf of your winnings goes to your debt.")
