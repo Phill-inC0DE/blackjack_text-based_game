@@ -31,4 +31,4 @@ This final step brings everything together and allows the whole game to be resta
 ## Final Task | Debugging
 Constant back and forth running the code and adjusting it to every different scenerio the game went was actually quite challenging. But I'm happy with my overall result, I can hopefully say that I found every possible bug I challenge you to find one! if so please message me I will happily make the adjustments.
 
-# Thanks for checking out my game. Please let me know your thoughts!
+## Thank you for checking out my work. Please let me know your thoughts!
